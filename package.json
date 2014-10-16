@@ -1,0 +1,7 @@
+{
+  "name": "wwwjdict",
+  "description": "API for the WWWJDICT project",
+  "author": "Rewon Child <rewonc@gmail.com> (https://github.com/rewonc)",
+  "version": "0.1.0",
+  "main": "index.js"
+}
