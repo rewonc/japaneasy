@@ -4,4 +4,6 @@ dic.search = function(text){
   console.log('hello, world');
 }
 
-module.exports = dic;
+if (typeof module !== 'undefined') {
+  module.exports = dic;
+}

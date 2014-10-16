@@ -1,0 +1,1 @@
+This package wraps the APIs of the WWWJDIC project.
