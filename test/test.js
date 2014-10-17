@@ -96,8 +96,8 @@ describe("Initialization", function(){
   });  
 
   it("throws an error for nonpositive noninteger timeout values", function(){
-    expect(function(){test({timeout: -10})}).to.throw('Timeout must be a positive integer');
-    expect(function(){test({timeout: "100"})}).to.throw('Timeout must be a positive integer');
+    expect(function(){test({timeout: -10})}).to.throw('timeout must be a positive integer');
+    expect(function(){test({timeout: "100"})}).to.throw('timeout must be a positive integer');
   }); 
   
 });
@@ -106,6 +106,7 @@ describe("Initialization", function(){
 //TODO: stub out url tests -- spy and make sure the url is correct
 
 describe('Url generation', function(){
+  var url = require('../lib/url');
   beforeEach(function(){
 
   });
