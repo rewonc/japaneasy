@@ -4,8 +4,16 @@
   "author": "Rewon Child <rewonc@gmail.com> (https://github.com/rewonc)",
   "version": "0.1.0",
   "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/rewonc/japaneasy.git"
+  },
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "mocha": "^1.21.5",
+    "sinon": "^1.10.3"
   }
 }

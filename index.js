@@ -1,7 +1,7 @@
 var dic = {}
 
 dic.search = function(text){
-  console.log('hello, world');
+  return('hello, world');
 }
 
 if (typeof module !== 'undefined') {
