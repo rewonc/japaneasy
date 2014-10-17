@@ -80,8 +80,41 @@ describe("Initialization", function(){
     expect(function(){test({custom: 123})}).to.throw('Custom input must be a string');
     expect(function(){test({custom: "a"})}).to.throw('Custom input must be at least 4 characters long');
   });  
+
+  it("returns a function for valid mirror locations", function(){
+    expect(test({default_mirror: "austrailia"})).to.be.a('function');
+    expect(test({default_mirror: "canada"})).to.be.a('function');
+    expect(test({default_mirror: "germany"})).to.be.a('function');
+    expect(test({default_mirror: "japan"})).to.be.a('function');
+    expect(test({default_mirror: "sweden"})).to.be.a('function');
+    expect(test({default_mirror: "usa"})).to.be.a('function');
+  });
+
+  it("throws an error for invalid mirror inputs", function(){
+    expect(function(){test({default_mirror: 123})}).to.throw('Default mirror input must be a string');
+    expect(function(){test({default_mirror: "a"})}).to.throw('Invalid mirror name');
+  });  
+
+  it("throws an error for nonpositive noninteger timeout values", function(){
+    expect(function(){test({timeout: -10})}).to.throw('Timeout must be a positive integer');
+    expect(function(){test({timeout: "100"})}).to.throw('Timeout must be a positive integer');
+  }); 
   
 });
+
+
+//TODO: stub out url tests -- spy and make sure the url is correct
+
+describe('Url generation', function(){
+  beforeEach(function(){
+
+  });
+});
+
+
+
+
+
 
 describe('Limits on querying', function() {
   it("throws an exception to blank string", function(){
@@ -101,8 +134,6 @@ describe('Limits on querying', function() {
     expect(function(){a(["abc","def"])}).to.throw('must be a string');
   })
 });
-
-//TODO: stub out url tests -- spy and make sure the url is correct
 
 
 //TODO: stub out using nock or rewire~~make sure the response is parsed correctly

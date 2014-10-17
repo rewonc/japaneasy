@@ -6,7 +6,7 @@ This package wraps the API of the online Japanese dictionary WWWJDIC (http://www
 - Dictionary search in Japanese and English 
 - Kanji lookup
 - Text glossing in Japanese (take a chunk of text and list all the words it contains)
-- Specialized dictionary search (Search the Names, legal, scientific, engineering, linguistics databases and more)
+- Specialized dictionary search (including names, legal, scientific, engineering, linguistics, and more)
 - Alternate language dictionaries (Japanese-German, Japanese-French, Japanese-Russian, Japanese-Sweden, Japanese-Hungarian, Japanese-Spanish, Japanese-Dutch, Japanese-Slovenian, Japanese-Italian)
 
 It also includes automatic switching between WWWJDIC mirrors in the case that the primary one is down. 
@@ -105,8 +105,8 @@ When you initialize japaneasy without any options, the following settings are us
 ```javascript
 var Dictionary = require('japaneasy');
 var dict = new Dictionary({
-  dictionary: "EDICT",
-  closest_mirror: "USA",  
+  dictionary: "edict",
+  default_mirror: "USA",  
   timeout: 200    
 });
 
@@ -121,7 +121,7 @@ var dict = new Dictionary({
 ```javascript
 var Dictionary = require('japaneasy');
 var dict = new Dictionary({
-  dictionary: "Glossing"
+  dictionary: "glossing"
 });
 
 dict('飛べねぇ豚はただのブタだ').then(function(result){
@@ -135,7 +135,7 @@ dict('飛べねぇ豚はただのブタだ').then(function(result){
 ```javascript
 var Dictionary = require('japaneasy');
 var dict = new Dictionary({
-  dictionary: "Life Sciences"
+  dictionary: "life-science"
 });
 
 dict('chemolithotroph').then(function(result){
