@@ -1,18 +1,50 @@
-// First, we require `expect` from Chai.
 var expect = require('chai').expect;
 var sinon = require('sinon');
-var dictionary = require('..');
+var Dictionary = require('..');
 
-// `describe` makes a "suite" of tests; think of them as a group.
-describe('Search function', function() {
+//common word search + specific input types. All return same output type? Seem to... Just an array.
+//there are: dictionary lookups, kanji lookups, text glossing, (throw out rest for now)
+//just do ordinary jpn/en, common words, and text glossing for now. 
 
-  // The tests have an English description...
-  it('returns hello, world', function() {
-    // ...and a code assertion.
-    expect(dictionary.search()).to.be.a('string');
-    expect(dictionary.search()).to.equal('hello, world');
+describe("Initialization", function(){
+
+  it("is a function when initialized with no inputs", function(){
+    var a = new Dictionary();
+    expect(a).is.a("function");
   });
-
-  // You can have multiple tests in a suite.
+  it("is a function when initialized with blank object", function(){
+    var a = new Dictionary({});
+    expect(a).is.a("function");
+  });
+  
+  //TODO: test for valid configuration options
 
 });
+
+describe('Limits on querying', function() {
+  it("throws an exception to blank string", function(){
+    var a = new Dictionary();
+    expect(a('')).to.throw('blank input');
+  });
+  it("throws an exception to null, undefined, or no input", function(){
+    var a = new Dictionary();
+    expect(a()).to.throw('must provide input that is not null or undefined');
+    expect(a(null)).to.throw('must provide input that is not null or undefined');
+    expect(a(undefined)).to.throw('must provide input that is not null or undefined');
+  });
+  it("throws an exception to non string types", function(){
+    var a = new Dictionary();
+    expect(a({hello: "world"})).to.throw('must be a string');
+    expect(a(12345.10)).to.throw('must be a string');
+    expect(a(["abc","def"])).to.throw('must be a string');
+  })
+});
+
+//TODO: test for valid queries & expected responses, one for each section
+
+
+//TODO: test for mirrors and switching of them
+
+
+
+
