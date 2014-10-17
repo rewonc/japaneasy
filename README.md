@@ -3,10 +3,9 @@
 [![Build Status](https://travis-ci.org/rewonc/japaneasy.svg?branch=master)](https://travis-ci.org/rewonc/japaneasy)
 
 This package wraps the API of the online Japanese dictionary WWWJDIC (http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1C). It includes:
-- Common word search (takes both Japanese and English text as input and returns matches in the common word EDICT subset)
-- Japanese word search (takes Japanese words as input and searches the whole EDICT)
-- English word search (takes English words as input and searches the whole EDICT)
-- Text glossing (takes chunks of Japanese text and returns probable matches
+- Dictionary search in Japanese and English 
+- Kanji lookup
+- Text glossing in Japanese (take a chunk of text and list all the words it contains)
 - Specialized dictionary search (Search the Names, legal, scientific, engineering, linguistics databases and more)
 - Alternate language dictionaries (Japanese-German, Japanese-French, Japanese-Russian, Japanese-Sweden, Japanese-Hungarian, Japanese-Spanish, Japanese-Dutch, Japanese-Slovenian, Japanese-Italian)
 
@@ -18,12 +17,14 @@ It also includes automatic switching between WWWJDIC mirrors in the case that th
 
 ##Usage
 
-#####Common dictionary
+#####Request
+
 ```javascript
 var Dictionary = require('japaneasy');
-var dict = new Dictionary();
+var dict = new Dictionary({
+  // - configuration options. Leave blank for default.
+});
 
-// search for hello, or 世界
 dict('hello').then(function(result){
   console.log(result);
 });
@@ -34,32 +35,86 @@ dict('世界').then(function(result){
 
 ```
 
-#####Japanese EDICT search
+#####Response
+```javascript
+//"hello"
+[
+  {
+    kanji:
+    hiragana:
+    etc:
+    etc:
+    etc:
+  }, 
+
+  . . .
+
+  {
+    kanji:
+    hiragana:
+    etc:
+    etc:
+    etc:
+  }
+]
+
+//"世界"
+[
+  {
+    kanji:
+    hiragana:
+    etc:
+    etc:
+    etc:
+  }, 
+
+  . . .
+
+  {
+    kanji:
+    hiragana:
+    etc:
+    etc:
+    etc:
+  }
+]
+
+
+```
+
+
+##Configuration options
+
+#####"dictionary" option
+
+#####"method" option
+
+#####"encode" option
+
+#####"custom" option
+
+  
+#####"mirror" option
+
+#####"timeout" option
+
+
+#### Default configuration
+When you initialize japaneasy without any options, the following settings are used:
+
 ```javascript
 var Dictionary = require('japaneasy');
 var dict = new Dictionary({
-  dictionary: "Japanese"
-});
-
-dict('世界').then(function(result){
-  console.log(result);
+  dictionary: "EDICT",
+  closest_mirror: "USA",  
+  timeout: 200    
 });
 
 ```
 
-#####English EDICT search
 
-```javascript
-var Dictionary = require('japaneasy');
-var dict = new Dictionary({
-  dictionary: "English"
-});
 
-dict('hello').then( function(result){
-  console.log(result);
-});
-
-```
+##Examples
 
 #####Japanese text glossing
 
@@ -88,23 +143,4 @@ dict('chemolithotroph').then(function(result){
 });
 
 ```
-
-##Default configuration options
-
-```javascript
-var Dictionary = require('japaneasy');
-var dict = new Dictionary({
-  dictionary: "Common",
-  closest_mirror: "USA",  
-  timeout: 200    
-});
-
-
-```
-
-##Custom configuration options
-
-#####Dictionary
-
-#####Mirrors
 
