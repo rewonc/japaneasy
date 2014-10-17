@@ -1,10 +1,24 @@
 var dic = function(config){
-  var dictionary;
+  var dictionary, method, encoding, custom;
   //set config varaibles
   if (config && config.dictionary){
     if (typeof config.dictionary != "string") throw new Error("Dictionary input must be a string");
     if (!mapDictionary(config.dictionary)) throw new Error("Invalid parameter for dictionary")
     dictionary = mapDictionary(config.dictionary);
+  }
+  if (config && config.method){
+    if (typeof config.method != "string") throw new Error("Method input must be a string");
+    if (!mapMethod(config.method)) throw new Error("Invalid parameter for method")
+    method = mapMethod(config.method);
+  }
+  if (config && config.encoding){
+    if (typeof config.encoding != "string") throw new Error("Encoding input must be a string");
+    if (!encode(config.encoding)) throw new Error("Invalid parameter for encoding");
+  }
+  if (config && config.custom){
+    if (typeof config.custom != "string") throw new Error("Custom input must be a string");
+    if (config.custom.length < 4) throw new Error("Custom input must be at least 4 characters long")
+    custom = config.custom
   }
 
 
@@ -28,7 +42,7 @@ var dic = function(config){
       "finance": "6",
       "buddhism": "7",
       "misc": "8",
-      "gloss": "9",
+      "glossing": "9",
       "sci-eng": "A",
       "linguistics": "B",
       "river-water": "C",
@@ -49,6 +63,30 @@ var dic = function(config){
       "expanded-glossing": "R"
     }
     return map[key]
+  }
+
+  function mapMethod(key){
+    var map = {
+      "kanji": "M",
+      "word": "U",
+      "glossing": "I"
+    }
+    return map[key]
+  }
+
+  function encode(key){
+    //this function has side effects
+    if(key == "UTF-8") return true;
+    if (key == "Shift-JIS") {
+      //do something
+      return true;
+    } else if (key == "EUC" || key == "ISO-2022-JP" || key == "UCS"){
+      //do something
+      return true;
+    } else{
+      return false;
+    }
+
   }
 
 }
