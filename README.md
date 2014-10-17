@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/rewonc/japaneasy.svg?branch=master)](https://travis-ci.org/rewonc/japaneasy)
 
-This package wraps the APIs of the wonderful online Japanese dictionary WWWJDIC (http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1C). It includes:
+This package wraps the API of the online Japanese dictionary WWWJDIC (http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1C). It includes:
 - Common word search (takes both Japanese and English text as input and returns matches in the common word EDICT subset)
 - Japanese word search (takes Japanese words as input and searches the whole EDICT)
 - English word search (takes English words as input and searches the whole EDICT)
@@ -96,7 +96,7 @@ var Dictionary = require('japaneasy');
 var dict = new Dictionary({
   dictionary: "Common",
   closest_mirror: "USA",  
-  timeout: "200"    //refers to the amount of time japaneasy will wait for a promise to be fulfilled before querying the next mirror
+  timeout: 200    
 });
 
 
