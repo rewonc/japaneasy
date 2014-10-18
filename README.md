@@ -93,6 +93,7 @@ dict('世界').then(function(result){
 
 #####"custom" option
 
+Input your own four letter code. See http://www.edrdg.org/wwwjdic/wwwjdicinf.html#backdoor_tag for details.
   
 #####"mirror" option
 

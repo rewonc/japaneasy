@@ -82,17 +82,17 @@ describe("Initialization", function(){
   });  
 
   it("returns a function for valid mirror locations", function(){
-    expect(test({default_mirror: "austrailia"})).to.be.a('function');
-    expect(test({default_mirror: "canada"})).to.be.a('function');
-    expect(test({default_mirror: "germany"})).to.be.a('function');
-    expect(test({default_mirror: "japan"})).to.be.a('function');
-    expect(test({default_mirror: "sweden"})).to.be.a('function');
-    expect(test({default_mirror: "usa"})).to.be.a('function');
+    expect(test({mirror: "austrailia"})).to.be.a('function');
+    expect(test({mirror: "canada"})).to.be.a('function');
+    expect(test({mirror: "germany"})).to.be.a('function');
+    expect(test({mirror: "japan"})).to.be.a('function');
+    expect(test({mirror: "sweden"})).to.be.a('function');
+    expect(test({mirror: "usa"})).to.be.a('function');
   });
 
   it("throws an error for invalid mirror inputs", function(){
-    expect(function(){test({default_mirror: 123})}).to.throw('Default mirror input must be a string');
-    expect(function(){test({default_mirror: "a"})}).to.throw('Invalid mirror name');
+    expect(function(){test({mirror: 123})}).to.throw('Default mirror input must be a string');
+    expect(function(){test({mirror: "a"})}).to.throw('Invalid mirror name');
   });  
 
   it("throws an error for nonpositive noninteger timeout values", function(){
@@ -102,14 +102,65 @@ describe("Initialization", function(){
   
 });
 
-
-//TODO: stub out url tests -- spy and make sure the url is correct
-
-describe('Url generation', function(){
+describe('Url generator', function(){
   var url = require('../lib/url');
-  beforeEach(function(){
+  it("should generate a default url without any configuration", function(){
+    expect( url() ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZUP');
+    expect( url({}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZUP');
+    expect( url({dictionary: '', method: '', encode: '', custom: '', mirror: '', timeout: 200}) )
+      .to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZUP');
+  });
+
+  it("should generate a url for basic japanese lookup", function(){
+    expect( url({input: "japanese"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZUJ');
+  });
+
+  it("should generate a url for basic english lookup", function(){
+    expect( url({input: "english"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZUE');
+  });
+
+  it("should generate a url for different dictionaries", function(){
+    expect( url({dictionary: "edict"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZUP');
+    expect( url({dictionary: "enamdict"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?2ZUP');
+    expect( url({dictionary: "computing"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?3ZUP');
+    expect( url({dictionary: "sci-eng"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?AZUP');
+    expect( url({dictionary: "german"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?GZUP');
+    expect( url({dictionary: "glossing"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?9ZIP');
+  });
+
+  it("should generate a url for different search methods", function(){
+    expect( url({dictionary: "edict", method: "word"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZUP');
+    expect( url({dictionary: "edict", method: "glossing"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?9ZIP');
+    expect( url({dictionary: "edict", method: "kanji"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZMP');
 
   });
+
+  it("should generate a url for different encoding types", function(){
+    expect( url({dictionary: "edict", encoding: "UTF-8"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZUP');
+    expect( url({dictionary: "edict", encoding: "Shift-JIS"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZSP');
+    expect( url({dictionary: "edict", encoding: "ASCII"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZDP');
+    expect( url({dictionary: "glossing", encoding: "UTF-8"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?9ZIP');
+    expect( url({dictionary: "glossing", encoding: "Shift-JIS"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?9ZHP');
+    expect( url({dictionary: "glossing", encoding: "UCS"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?9ZGP');
+  });
+
+  it("should have a no-repeat option for glossing", function(){
+    expect( url({dictionary: "glossing", noRepeat: true}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?9ZIG');
+  });
+
+  it("should accurately switch between mirrors", function(){
+    expect( url({mirror: "usa"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?1ZUP');
+    expect( url({mirror: "sweden"}) ).to.equal('http://wwwjdic.se/cgi-bin/wwwjdic?1ZUP');
+    expect( url({mirror: "canada"}) ).to.equal('http://www.ottix.net/cgi-bin/wwwjdic/wwwjdic?1ZUP');
+    expect( url({mirror: "germany"}) ).to.equal('http://wwwjdic.biz/cgi-bin/wwwjdic?1ZUP');
+    expect( url({mirror: "japan"}) ).to.equal('http://gengo.com/wwwjdic/cgi-data/wwwjdic?1ZUP');
+    expect( url({mirror: "austrailia"}) ).to.equal('http://www.csse.monash.edu.au/~jwb/cgi-bin/wwwjdic?1ZUP');
+  });
+
+  it("should overwrite other settings when a custom input is entered", function(){
+    expect( url({dictionary: "glossing", custom: "abcdef"}) ).to.equal('http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?abcdef');
+  });
+
 });
 
 
