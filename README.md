@@ -53,7 +53,6 @@ dict('ハロー世界').then(function(result){
 
 ```
 
-
 ##Configuration options
 
 All options are entered as one object and input as the first parameter of the initial constructor function.
@@ -168,6 +167,9 @@ dict('chemolithotroph').then(function(result){
 
 ```
 
+##Additional notes
+For assistance in interpreting the part of speech code, see http://www.edrdg.org/wwwjdic/wwwjdicinf.html#code_tag
+(That site is nice for understanding the API in general);
 
 ##Contributors
 Any contributors are very welcome -- please let me know here on github =)

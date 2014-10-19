@@ -1,5 +1,8 @@
 var expect = require('chai').expect;
 var Dictionary = require('..');
+var parse = require('../lib/parse');
+var url = require('../lib/url');
+
 
 //common word search + specific input types. All return same output type? Seem to... Just an array.
 //there are: dictionary lookups, kanji lookups, text glossing, (throw out rest for now)
@@ -102,7 +105,6 @@ describe("Initialization", function(){
 });
 
 describe('Url generator', function(){
-  var url = require('../lib/url');
   it("should generate a default url without any configuration", function(){
     expect( url() ).to.equal('1ZUP');
     expect( url({}) ).to.equal('1ZUP');
@@ -147,6 +149,7 @@ describe('Url generator', function(){
     expect( url({dictionary: "glossing", noRepeat: true}) ).to.equal('9ZIG');
   });
 
+  //TODO: switch to integration test
   it("should accurately switch between mirrors", function(){
     expect( url({mirror: "usa"}) ).to.equal('1ZUP');
     expect( url({mirror: "sweden"}) ).to.equal('1ZUP');
@@ -183,7 +186,17 @@ describe('Limits on querying', function() {
 });
 
 
-describe('Requests and responses', function(){
+describe('Parsing responses', function(){
+  it("accurately parses the response for 'hello'", function(){
+    //hack for multiline string
+    var testString = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n<HTML>\n<HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8"><TITLE>WWWJDIC: Word Display</TITLE>\n</HEAD><BODY>\n<p>\n<pre>\nもしもし /(int) (1) hello (e.g. on phone)/(2) excuse me! (when calling out to someone)/(P)/\n今日は [こんにちは(P);こんちは] /(int) (uk) (こんちは is col.) hello/good day (daytime greeting)/(P)/\nどうも /(int) (1) (abbr) (See どうも有難う) thanks/(adv) (2) much (thanks)/very (sorry)/quite (regret)/(3) quite/really/mostly/(4) somehow/(5) (in positive sense, esp. どうも〜しまう) (See どうしても) in spite of oneself/no matter how hard one may try (one is unable to) (with negative verb)/no matter how hard one may try not to (one ends up doing) (with positive verb, esp. -shimau)/(int) (6) greetings/hello/goodbye/(P)/\nハロー(P);ハロ /(n) (1) halo/(2) (ハロー only) hello/hallo/hullo/(3) (ハロー only) harrow/(P)/\n</pre>\n</BODY>\n</HTML>\n';
+    
+    expect(parse(testString)).to.be.instanceOf(Array);
+    expect(parse(testString)[0].japanese).to.equal("もしもし");
+
+    expect(parse(testString)[0].english).to.be.instanceOf(Array);
+    expect(parse(testString)[0].english[0]).to.equal("hello (e.g. on phone)");
+  })
 
 });
 //TODO: stub out using nock or rewire~~make sure the response is parsed correctly
