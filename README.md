@@ -32,10 +32,10 @@ dict('辞書').then(function(result){
 #####Response
 ```javascript
 [ 
-  { japanese: '辞書',                                //the japanese entry for the word
-    pos: 'n',                                        //the part of speech identifier
-    pronunciation: 'じしょ',                          //pronunciation (for words with kanji)
-    english:                                         //an array of english translations (usually more than 1)
+  { japanese: '辞書',                     //the japanese entry for the word
+    pos: 'n',                            //the part of speech identifier
+    pronunciation: 'じしょ',              //pronunciation (for words with kanji)
+    english:                             //an array of english translations (usually more than 1)
       [ 
         'dictionary/lexicon',
         '(arch) (See 辞表) letter of resignation' 

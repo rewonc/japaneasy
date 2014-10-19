@@ -198,6 +198,26 @@ describe('Parsing responses', function(){
     expect(parse(testString)[0].english[0]).to.equal("hello (e.g. on phone)");
   })
 
+  it("accurately parses the response when no response exists'", function(){
+    //hack for multiline string
+    var testString = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n<HTML>\n<HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8"><TITLE>WWWJDIC: Word Display</TITLE>\n</HEAD><BODY>\n<p>\nNo matches were found for this key!<p>\n</BODY>\n</HTML>\n';
+
+    expect(parse(testString)).to.be.instanceOf(Array);
+    expect(parse(testString)[0]).to.equal("No items were found; try another query.");
+
+  })
+
+  it("accurately parses the response for glossing '今日は、世界！'", function(){
+    //hack for multiline string
+    var testString = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n<HTML>\n<HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8"><TITLE>WWWJDIC: Word Display</TITLE>\n</HEAD><BODY>\n<p>\n<pre>\nもしもし /(int) (1) hello (e.g. on phone)/(2) excuse me! (when calling out to someone)/(P)/\n今日は [こんにちは(P);こんちは] /(int) (uk) (こんちは is col.) hello/good day (daytime greeting)/(P)/\nどうも /(int) (1) (abbr) (See どうも有難う) thanks/(adv) (2) much (thanks)/very (sorry)/quite (regret)/(3) quite/really/mostly/(4) somehow/(5) (in positive sense, esp. どうも〜しまう) (See どうしても) in spite of oneself/no matter how hard one may try (one is unable to) (with negative verb)/no matter how hard one may try not to (one ends up doing) (with positive verb, esp. -shimau)/(int) (6) greetings/hello/goodbye/(P)/\nハロー(P);ハロ /(n) (1) halo/(2) (ハロー only) hello/hallo/hullo/(3) (ハロー only) harrow/(P)/\n</pre>\n</BODY>\n</HTML>\n';
+    
+    expect(parse(testString)).to.be.instanceOf(Array);
+    expect(parse(testString)[0].japanese).to.equal("もしもし");
+
+    expect(parse(testString)[0].english).to.be.instanceOf(Array);
+    expect(parse(testString)[0].english[0]).to.equal("hello (e.g. on phone)");
+  })
+
 });
 //TODO: stub out using nock or rewire~~make sure the response is parsed correctly
 
