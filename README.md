@@ -68,7 +68,7 @@ var dict = new Dictionary({
   method: "word",
   encode: "UTF-8",
   mirror: "usa",
-  timeout: 200
+  timeout: 500
 });
 ```
 
@@ -131,7 +131,7 @@ Select the default mirror to which japaneasy sends requests. The default value i
 
 #####"timeout" option
 If a request to a certain has not resolved the promise object within the time specified here, japaneasy will query a different mirror.  WWWJDIC mirrors occasionally go down (at the time of this writing, the Austrailia mirror is down), but it's very infrequent that all five are down at the same time. 
-Default value is `200` (milliseconds), which should be fine for most use cases. If you're consistently seeing long load times, try changing the default mirror. 
+Default value is `500` (milliseconds), which is long enough to not query multiple mirrors and short enough to not notice the delay if you switch over. If you're consistently seeing long load times, try changing the default mirror. 
 
 #####"custom" option
 

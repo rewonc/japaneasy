@@ -1,5 +1,6 @@
 var http = require('http');
 var generateCode = require('./lib/url');
+var parse = require('./lib/parse');
 var Q = require('q');
 
 
@@ -42,12 +43,8 @@ var dic = function(config){
         console.log("Got response: " + res.statusCode);
         resolved = true;
         var body = '';
-        res.on('data', function(chunk){
-          body += chunk;
-        });
-        res.on('end', function() {
-          deferred.resolve(body);
-        });
+        res.on('data', function(chunk)  {  body += chunk;  });
+        res.on('end', function()        {  deferred.resolve( parse(body) );  });
       }).on('error', function(e) {
         if (counter > 4) {deferred.reject(e)}
         console.log("Got error: " + e.message);
@@ -78,7 +75,6 @@ var dic = function(config){
     }
     return map[key]
   }
-
 
 
 
