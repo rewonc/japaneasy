@@ -23,7 +23,7 @@ It also includes automatic switching between WWWJDIC mirrors in the case that th
 var Dictionary = require('japaneasy');
 var dict = new Dictionary();
 
-dict('ハロー世界').then(function(result){
+dict('辞書').then(function(result){
   console.log(result);
 });
 
@@ -31,27 +31,20 @@ dict('ハロー世界').then(function(result){
 
 #####Response
 ```javascript
-[
-  {
-    kanji:
-    hiragana:
-    etc:
-    etc:
-    etc:
-  }, 
-
-  . . .
-
-  {
-    kanji:
-    hiragana:
-    etc:
-    etc:
-    etc:
+[ 
+  { japanese: '辞書',                                //the japanese entry for the word
+    pos: 'n',                                        //the part of speech identifier
+    pronunciation: 'じしょ',                          //pronunciation (for words with kanji)
+    english:                                         //an array of english translations (usually more than 1)
+      [ 
+        'dictionary/lexicon',
+        '(arch) (See 辞表) letter of resignation' 
+      ]
   }
 ]
 
 ```
+
 
 ##Configuration options
 
