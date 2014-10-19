@@ -1,5 +1,7 @@
+var http = require('http');
 var generateCode = require('./lib/url');
 var Q = require('q');
+
 
 var dic = function(config){
   var code = generateCode(config);
@@ -8,7 +10,7 @@ var dic = function(config){
   if (config && config.timeout){
           if (typeof config.timeout != "number" || config.timeout < 0) throw new Error("timeout must be a positive integer");
           timeout = config.timeout;
-  } else  { timeout = 200 }
+  } else  { timeout = 500 }
   if (config && config.mirror){
     if (typeof config.mirror != "string") throw new Error("Default mirror input must be a string");
     if (!mapMirror(config.mirror)) throw new Error("Invalid mirror name");
@@ -21,16 +23,48 @@ var dic = function(config){
 
 
   function search (text){
+    var resolved = false;
+    var counter = 0;
     var deferred = Q.defer();
     if(text === "") {throw new Error("Input string cannot be blank")}
     if(text === null || text === undefined) {throw "You must provide input that is not null or undefined"}
     if(typeof text != "string") {throw "Input must be a string"}
-    /*request(encodeURI(code + text), function (error, response, body) {
-      if (error)                            {deferred.reject(new Error(error));}
-      else if (response.statusCode != 200)  {deferred.reject(new Error("status code: " + response.statusCode))}
-      else                                  {deferred.resolve(body)}
-    });*/
+    
+    //send first request
+    var req = query(default_mirror);
+    req.setTimeout(timeout, tryAnother);
+
     return deferred.promise;
+
+    function query(mirror){
+      return http.get(mapMirror(mirror) + code + text, function(res) {
+        res.setEncoding('utf8');
+        console.log("Got response: " + res.statusCode);
+        resolved = true;
+        var body = '';
+        res.on('data', function(chunk){
+          body += chunk;
+        });
+        res.on('end', function() {
+          deferred.resolve(body);
+        });
+      }).on('error', function(e) {
+        if (counter > 4) {deferred.reject(e)}
+        console.log("Got error: " + e.message);
+        counter++;
+      });
+    }
+    function tryAnother(){
+      if (!resolved){
+        var arr = ['usa', 'japan', 'canada', 'germany', 'sweden', 'austrailia'];
+        var num = Math.floor(Math.random()*6);
+        console.log('trying mirror: ' + arr[num]);
+        query(arr[num]);
+      } else{
+        console.log('already resolved--done!');
+      }
+    }
+
   }
 
   function mapMirror(key){
