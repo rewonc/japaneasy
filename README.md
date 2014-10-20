@@ -32,7 +32,8 @@ dict('辞書').then(function(result){
 #####Response
 ```javascript
 [ 
-  { japanese: '辞書',                     //the japanese entry for the word
+  { 
+    japanese: '辞書',                     //the japanese entry for the word
     pos: 'n',                            //the part of speech identifier
     pronunciation: 'じしょ',              //pronunciation (for words with kanji)
     english:                             //an array of english translations (usually more than 1)
@@ -98,9 +99,13 @@ Select which dictionary to search in. `edict` works for most common words, but t
 ```
 Note that you can get other language translations by selecting that dictionary here. More details of these dictionaries are available on the WWWJDIC site: http://www.edrdg.org/wwwjdic/wwwjdicinf.html#dicfil_tag
 
-#####"language" option
+NOTE: Be sure to select an "input" language below if you select a language other than edict.
+
+#####"input" option
 Valid values are `"japanese"`, `"english"`, or `null` / `undefined`.  This refers to the language of the text you are querying.
-If you leave it undefined, Japaneasy will default to a "common word" search, which searches both Japanese and English keys and only queries the most common words in EDICT. This often shows the most pertinent words for a search. If you're looking in a specialized dictionary or want to see the full results for a specific term, however, you should input either `"japanese"` or `"english"` here. 
+If you leave it undefined, Japaneasy will default to a "common word" search, which searches both Japanese and English keys and only queries the most common words in EDICT. This often shows the most pertinent words for a search. 
+
+######NOTE! If you're looking in a specialized dictionary or want to see the full results for a specific term, you should input either `"japanese"` or `"english"` here. 
 
 #####"method" option
 Valid values: `"kanji"`, `"word"`, or `"glossing"`. 
@@ -129,6 +134,9 @@ Default value is `500` (milliseconds), which is long enough to not query multipl
 
 You can also pass in a `custom` option followed by the a custom configuration code you've designed yourself. Example: `custom: "9ZIP"`.  See http://www.edrdg.org/wwwjdic/wwwjdicinf.html#backdoor_tag for details of how to craft this code. Note that this will override all other configuration options besides the mirror and timeout. 
 
+#####Glossing no-repeat
+If you select the glossing dictionary, you can pass in `noRepeat: true` to remove duplicate entries.
+
 
 ##Examples
 
@@ -144,6 +152,30 @@ dict('飛べねぇ豚はただのブタだ').then(function(result){
   console.log(result);
 });
 
+/****** Response:
+[ 
+  { 
+    japanese: '飛ぶ',
+    pronunciation: 'とぶ',
+    english: 
+     [ '(esp. 飛ぶ) to fly; to soar;',
+       '(esp. 跳ぶ) to jump; to leap; to spring; to bound; to hop; (P); ED ' ] 
+  },
+  { 
+    japanese: '豚',
+    pronunciation: 'ぶた(P); ブタ',
+    english: 
+     [ 'pig (Sus scrofa domesticus);',
+       '(derog) fat person; (P);  【とん】 ; (n-pref,n) pig; pork' ] 
+  },
+  { 
+    japanese: 'ブタ',
+    pronunciation: 'ぶた(P); ブタ',
+    english: [ 'pig (Sus scrofa domesticus);', '(derog) fat person; (P)' ]
+  } 
+]
+*/
+
 ```
 
 #####Specialized dictionary search
@@ -151,12 +183,37 @@ dict('飛べねぇ豚はただのブタだ').then(function(result){
 ```javascript
 var Dictionary = require('japaneasy');
 var dict = new Dictionary({
-  dictionary: "life-science"
+  dictionary: "life-science",
+  input: "english"              //important: Put in your input language for all of the specialized dictionaries
 });
 
 dict('chemolithotroph').then(function(result){
   console.log(result);
 });
+
+/****** Response:
+[ 
+  { 
+    japanese: '化学合成無機栄養生物',
+    pos: 'n',
+    pronunciation: 'かがくごうせいむきえいようせいぶつ',
+    english: 
+      [ 'chemolithotroph' ] 
+  },
+  { 
+    japanese: '無機栄養細菌',
+    pos: 'n',
+    pronunciation: 'むきえいようさいきん',
+    english: [ 'chemolithotroph' ] 
+  },
+  { 
+    japanese: '化学合成無機栄養グラム陰性細菌',
+    pos: 'np',
+    pronunciation: 'かがくごうせいむきえいようぐらむいんせいさいきん',
+    english: [ 'Gram-negative chemolithotrophic bacteria' ] 
+  }
+]
+*/
 
 ```
 
@@ -165,5 +222,5 @@ For assistance in interpreting the part of speech code, see http://www.edrdg.org
 (That site is nice for understanding the API in general);
 
 ##Contributors
-Any contributors are very welcome -- please let me know here on github =)
+Any contributors are very welcome!  Just write in your tests in test/test.js.  Please send bug reports my way too.  Thanks! =)
 
