@@ -2,7 +2,7 @@
   "name": "japaneasy",
   "description": "API for the WWWJDICT project",
   "author": "Rewon Child <rewonc@gmail.com> (https://github.com/rewonc)",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
