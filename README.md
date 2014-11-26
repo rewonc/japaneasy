@@ -11,6 +11,9 @@ This package wraps the API of the online Japanese dictionary WWWJDIC (http://www
 
 It also includes automatic switching between WWWJDIC mirrors in the case that the primary one is down. 
 
+######Simple demo: http://japaneasy.herokuapp.com/
+
+
 ##Installation
 
 `npm install japaneasy`
