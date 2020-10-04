@@ -202,13 +202,13 @@ This is your character encoding. Default value is `"UTF-8"`.  You can also selec
 #####"mirror" option
 Select the default mirror to which japaneasy sends requests. The default value is `"usa"`. Other values include:
 `"sweden"`
-`"japan"`
 `"germany"`
 `"canada"`
-`"austrailia"`
+`"australia_monash"`
+`"australia_melbourne"`
 
 #####"timeout" option
-If a request to a certain has not resolved the promise object within the time specified here, japaneasy will query a different mirror.  WWWJDIC mirrors occasionally go down (at the time of this writing, the Austrailia mirror is down), but it's very infrequent that all five are down at the same time. 
+If a request to a certain has not resolved the promise object within the time specified here, japaneasy will query a different mirror.  WWWJDIC mirrors occasionally go down, but it's very infrequent that all five are down at the same time.
 Default value is `500` (milliseconds), which is long enough to not query multiple mirrors and short enough to not notice the delay if you switch over. If you're consistently seeing long load times, try changing the default mirror. 
 
 #####"custom" option

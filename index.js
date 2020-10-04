@@ -87,10 +87,10 @@ var dic = function (config) {
 
   function mapMirror(key) {
     var map = {
-      "austrailia": "http://www.csse.monash.edu.au/~jwb/cgi-bin/wwwjdic?",
-      "canada": "http://www.ottix.net/cgi-bin/wwwjdic/wwwjdic?",
+      "austrailia": "http://nihongo.monash.edu/cgi-bin/wwwjdic?",
+      "australia_monash": "http://nihongo.monash.edu/cgi-bin/wwwjdic?",
+      "australia_melbourne": "http://nlp.cis.unimelb.edu.au/jwb/wwwjdic/wwwjdic.cgi?",
       "germany": "http://wwwjdic.biz/cgi-bin/wwwjdic?",
-      "japan": "http://gengo.com/wwwjdic/cgi-data/wwwjdic?",
       "usa": "http://www.edrdg.org/cgi-bin/wwwjdic/wwwjdic?",
       "sweden": "http://wwwjdic.se/cgi-bin/wwwjdic?"
     }
